@@ -23,7 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/facebook_lead/';
+$config['base_url'] = 'https://72cf94ae.ngrok.io/facebook_lead/';
+// $config['base_url'] = 'http://localhost/facebook_lead/';
+// $config['base_url'] = 'http://172.16.3.107/facebook_lead/';
+// $config['base_url'] = 'https://zoopapps.com/fb_lead/';
 
 /*
 |--------------------------------------------------------------------------

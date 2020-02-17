@@ -31,6 +31,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/my_pages";?>">My Pages</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url()."index.php/home/webhook_response_list";?>">Webhook Data</a>
+            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/wehooks";?>">Web Hooks</a>
             </li>
@@ -82,7 +85,7 @@
                         <div class="form-group">
                             <label for="callback">CallBack URL</label>
                             <input type="text" class="form-control" id="callback" name="callback" aria-describedby="callbackHelp" placeholder="Callback URL" value="<?php echo $editing['callback'];?>"/>
-                            <small id="callbackHelp" class="form-text text-muted"></small>
+                            <small id="callbackHelp" class="form-text text-muted">/fb_lead/index.php/webhook/verify_token/<?php echo $this->session->user_id;?></small>
                         </div>
                         <div class="form-group">
                             <label for="fields">Fields</label>

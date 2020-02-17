@@ -28,10 +28,10 @@
             <?php if(!$is_in){ ?>
 
             <?php }else{ ?>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/my_pages";?>">My Pages</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/webhook_response_list";?>">Webhook Data</a>
             </li>
             <li class="nav-item">
@@ -50,39 +50,26 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <?php if($has_error):?>
-                    <div class='alert alert-danger' role='alert' style='word-break: break-word;'>
-                        <?php echo $error['message'];?>
-                    </div>
-                <?php else: ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Id</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Subscribe</th>
-                                <th scope="col">Subscribed Fields</th>
-                            </tr>
-                        </thead>
-                            <tbody>
-                                <?php foreach($pages as $k=>$page){
-                                    $sr = $k+1;
-                                    $subscrib_url = base_url()."index.php/home/subscribe_page/".$page['id'] ;
-                                    $subscribed_fields = implode(",",$page['subscribed_fields']);
-                                    echo "<tr>
-                                            <td>{$sr}</td>
-                                            <td>{$page['id']}</td>
-                                            <td>{$page['category']}</td>
-                                            <td>{$page['name']}</td>
-                                            <td><a href='{$subscrib_url}'>Subscribe</a></td>
-                                            <td>{$subscribed_fields}</td>
-                                            </tr>";
-                                }?>
-                            </tbody>
-                        </table>
-                <?php endif;?>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="widtH:5%;">Sr</th>
+                        <th scope="col" style="widtH:25%;">Object</th>
+                        <th scope="col"  style="widtH:70%;">Payload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($payloads as $k=>$payload){
+                        $sr = $k+1;
+                        $data = ($payload['payload']) ? json_encode(json_decode($payload['payload'],TRUE),JSON_PRETTY_PRINT) : '';
+                        echo "<tr>
+                                <td>{$sr}</td>
+                                <td>{$payload['object']} @ {$payload['created_at']}</td>
+                                <td><pre>{$data}</pre></td>
+                                </tr>";
+                    }?>
+                </tbody>
+            </table>
             </div>
         </div>
     </div>

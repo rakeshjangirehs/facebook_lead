@@ -23,7 +23,7 @@ $config['facebook_app_secret']            = '816c3d8ea340962e4e93de2e93d4cae4';
 $config['facebook_login_redirect_url']    = 'index.php/users';
 $config['facebook_logout_redirect_url']   = 'index.php/users/logout';
 $config['facebook_login_type']            = 'website';
-$config['facebook_permissions']           = array('email','user_gender','manage_pages','leads_retrieval','business_management','ads_management');
+$config['facebook_permissions']           = array('manage_pages','leads_retrieval');
 $config['facebook_graph_version']         = 'v3.2';
 $config['facebook_auth_on_load']          = TRUE;
 

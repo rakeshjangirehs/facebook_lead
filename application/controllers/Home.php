@@ -13,7 +13,7 @@ class Home extends MY_Controller {
 		$this->appAccessToken = $this->facebook->object()->getApp()->getAccessToken();
     }
 
-    public function index(){		
+    public function index(){				
         $this->load->view('users/index',$this->data);
 	}
 
@@ -158,13 +158,13 @@ class Home extends MY_Controller {
 			$this->session->set_flashdata('error',$page['message']);
 		}
 
-		redirect("home/subscribe_page/{$page_id}");
+		// redirect("home/subscribe_page/{$page_id}");
+		redirect("home/my_pages");
 	}
 
 	public function wehooks()
 	{
 		// https://developers.facebook.com/docs/graph-api/reference/v5.0/app/subscriptions		
-
 
 		$this->data['editing'] = [
 			'object'	=>	'',
@@ -193,7 +193,7 @@ class Home extends MY_Controller {
 			// Add Subscription
 			$params = [
 				"object"    =>  $object,
-				"callback_url"  =>  $callback_url,
+				"callback_url"  =>  $callback_url,	//TODO: make callback url in code and hide it from user's view
 				"fields"    =>  $fields,
 				"verify_token"  =>  $this->token,
 			];
@@ -260,5 +260,10 @@ class Home extends MY_Controller {
 		}
 
 		redirect("home/wehooks");
+	}
+
+	public function webhook_response_list(){
+		$this->data['payloads'] = $this->db->where("oauth_uid",$this->session->user_id)->get("webhook_responses")->result_array();
+		$this->load->view("users/webhook_response_list",$this->data);
 	}
 }

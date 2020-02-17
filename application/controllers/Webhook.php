@@ -7,21 +7,23 @@ class Webhook extends CI_Controller {
 
         $this->token = $this->config->item('hub_verify_token');
         $this->request_method = $this->input->server('REQUEST_METHOD');
-
-        // $url = $this->input->server('REQUEST_URI');        
-        // $this->log("Method $request_method");
-        // $this->log("URL $url");
-        // $this->log($_REQUEST,"json");        
-
-
-
+        $this->userId = null;
+        $this->userAccessToken = null;
     }
 
     // https://9626dd85.ngrok.io/facebook_lead/index.php/webhook/verify_token
     // yamin_pipadwala2001@yahoo.com
     // 9998449378
     
-    public function verify_token() {
+    public function verify_token($oauth_id=NULL) {       // $oauth_id is user_id
+
+        if(!$oauth_id) {
+            $this->log("User Id not recieved in webhook, please check one of your webhook callback url");
+            return;
+        }
+
+        $this->userId = $oauth_id;
+        $this->log("User Id: ".$oauth_id);
 
         if($this->request_method == 'GET') {
         
@@ -43,6 +45,16 @@ class Webhook extends CI_Controller {
 
             $this->log("Webhook Payload :");
             $this->log($payload,"json_response");
+
+            $last_index_of_fwd_slash = strrpos($_SERVER['REQUEST_URI'],"/");            
+            $oauth_uid = ($last_index_of_fwd_slash) ? substr($_SERVER['REQUEST_URI'],++$last_index_of_fwd_slash) : null;
+            
+
+            $this->db->insert("webhook_responses",[
+                'oauth_uid' =>  $oauth_uid,
+                'object'    =>  json_decode($payload,true)['object'],
+                'payload'   =>  $payload,
+            ]);
 
             if($payload) {
 
@@ -97,9 +109,11 @@ class Webhook extends CI_Controller {
 
     public function get_page_access_token($page_id)
     {        
-        $user = $this->db->get("users")->row_array();
-        $accessToken = $user['fb_access_token'];
-        $response = $this->facebook->request('get','/'.$page_id.'?fields=access_token', (string)$accessToken);
+        $user = $this->db->where("oauth_uid",$this->userId)->get("users")->row_array();
+
+        $this->userAccessToken = (string) $user['fb_access_token'];
+
+        $response = $this->facebook->request('get','/'.$page_id.'?fields=access_token', $this->userAccessToken);
 
         if(!isset($response['error']) && isset($response['access_token'])) {
             return $response['access_token'];

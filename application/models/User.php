@@ -35,7 +35,8 @@ class User extends CI_Model {
             }else{
 
                 //Remove all previous logged in users
-                $this->db->query("TRUNCATE TABLE `users`");
+                // $this->db->query("TRUNCATE TABLE `users`");
+
                 //insert user data
                 $userData['created']  = date("Y-m-d H:i:s");
                 $userData['modified'] = date("Y-m-d H:i:s");

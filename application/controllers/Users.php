@@ -7,6 +7,18 @@ class Users extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('user');
+		
+		
+		/*
+		$h = fopen("rakesh.txt","a+");
+        fwrite($h,"Request URI : " . $_SERVER['REQUEST_URI'] . PHP_EOL);
+        fwrite($h,"Request Method : " . $_SERVER['REQUEST_METHOD'] . PHP_EOL);
+        fwrite($h,"Remote Address : " . $_SERVER['REMOTE_ADDR'] . PHP_EOL);
+        fwrite($h,json_encode($_SERVER,JSON_PRETTY_PRINT) . PHP_EOL);
+        fwrite($h,json_encode($_REQUEST,JSON_PRETTY_PRINT) . PHP_EOL);
+        fwrite($h,"============================================" . PHP_EOL);
+        fclose($h);
+        */
 	}
 
 	public function index()
@@ -38,6 +50,7 @@ class Users extends CI_Controller {
 				$userData['logInUrl']        = $this->facebook->login_url();
 
 				$this->session->set_userdata('userData', $userData);
+				$this->session->set_userdata('user_id', $userData['oauth_uid']);
 
 				redirect('home');
 			}

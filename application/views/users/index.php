@@ -32,6 +32,9 @@
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/my_pages";?>">My Pages</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url()."index.php/home/webhook_response_list";?>">Webhook Data</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<?php echo base_url()."index.php/home/wehooks";?>">Web Hooks</a>
             </li>
             <li class="nav-item">
